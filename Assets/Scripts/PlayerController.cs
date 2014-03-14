@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private Quaternion initialRotation;
 	private Vector3 movement;
+	//private List<string> playerMoveList = new List<string> { "S" };
 
 	void Start ()
 	{
@@ -38,14 +40,17 @@ public class PlayerController : MonoBehaviour
 		if (inputX < 0)
 		{
 			animator.SetInteger("Direction", 1);
+			//playerMoveList.Add("ML");
 		}
         // player moving right
 		else if (inputX > 0)
 		{
 			animator.SetInteger ("Direction", 3);
+			//playerMoveList.Add("MR");
         // player facing forward/player is still
 		} else if (Input.GetKeyDown (KeyCode.UpArrow) || Input.GetKeyDown (KeyCode.DownArrow)) {
 			animator.SetInteger ("Direction", 0);
+			//playerMoveList.Add("S");
 		}
 	}
 
@@ -54,11 +59,14 @@ public class PlayerController : MonoBehaviour
         // player jump (if grounded)
 		if (Input.GetKeyDown (KeyCode.Space))
         {
-			if (isGrounded)
+			if (isGrounded) {
 				rigidbody2D.AddForce(Vector2.up * 4000.0f);
+				//playerMoveList.Add("J");
+			}
 		} else if (Input.GetKeyDown (KeyCode.UpArrow)) {
 			// player stand up (original rotation)
 			transform.rotation = initialRotation;
+			//playerMoveList.Add("SU");
 		}
 		
 		rigidbody2D.velocity = movement;
@@ -80,4 +88,16 @@ public class PlayerController : MonoBehaviour
 	{
 		isGrounded = false;
 	}
+	
+	/*
+	public string getPlayerLastMove()
+	{
+		return this.playerMoveList[this.playerMoveList.Count - 1];
+	}
+	
+	public List<string> getPlayerMovesList()
+	{
+		return this.playerMoveList;
+	}
+	*/
 }
